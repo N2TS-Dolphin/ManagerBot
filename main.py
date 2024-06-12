@@ -47,7 +47,7 @@ async def on_member_join(member):
                           color=discord.Color.from_rgb(0, 255, 255))
 
     embed.set_author(name=f'{guild.name}')
-    embed.set_thumbnail(url='https://th.bing.com/th/id/R.51e2c44258298f6058049767668c3b10?rik=wz7vzgKNmgsZjA&pid=ImgRaw&r=0' if guild.icon else None)
+    embed.set_thumbnail(url=guild.icon.url if guild.icon else None)
     embed.set_image(url=member.display_avatar.url)
 
     await channel.send(embed=embed)
@@ -55,8 +55,19 @@ async def on_member_join(member):
 
 @bot.event
 async def on_member_remove(member):
+    for guild in bot.guilds:
+        if guild.id == GUILD:
+            break
+
     channel = bot.get_channel(int(WELBYE))
-    await channel.send('Bye')
+    embed = discord.Embed(title=f'Goodbye {member.name}!',
+                          color=discord.Color.from_rgb(0, 255, 255))
+
+    embed.set_author(name=f'{guild.name}')
+    embed.set_thumbnail(url=guild.icon.url if guild.icon else None)
+    embed.set_image(url=member.display_avatar.url)
+
+    await channel.send(embed=embed)
 
 
 ### START KICK/BAN
